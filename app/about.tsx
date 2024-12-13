@@ -7,8 +7,8 @@ const about = () => {
   return (
     <SafeAreaView>
       <View className='w-full h-full flex items-center justify-center'>
-        <Text>abount</Text>
-        <Link href={'/'}>Go to Details</Link>
+        <Text className='text-xl dark:text-purple-500'>This is about</Text>
+        <Link className='text-blue-500' href={'/'}>Go to Details</Link>
       </View>
     </SafeAreaView>
   )
