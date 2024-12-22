@@ -45,7 +45,7 @@ const index = () => {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
-    }, 3000)
+    }, 1000)
   }, [])
 
   return (
@@ -63,7 +63,7 @@ const index = () => {
           <TouchableOpacity
             disabled={isLoading}
             className='flex flex-row gap-2 items-center justify-center bg-primary w-full h-14 rounded-lg'
-            onPress={() => router.push('/about')}
+            onPress={() => router.push('/(auth)/login')}
           >
             {
               isLoading ? (
