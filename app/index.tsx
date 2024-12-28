@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Switch as RNSwitch, useColorScheme } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Link, Redirect, router } from 'expo-router'
+import { router } from 'expo-router'
 import { codequizIcon } from "../constants/images.js"
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSpring } from 'react-native-reanimated'
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -82,11 +82,11 @@ const index = () => {
             >
               {
                 isLoading ? (
-                  <AntDesign name="loading1" size={20} color="white" className='animate-spin' />
+                  <AntDesign name="loading1" size={20} color={isDarkTheme ? "white" : "black"} className='animate-spin' />
                 ) : (
                   <>
                     <Feather name="user-plus" size={20} color={isDarkTheme ? "white" : "black"} />
-                    <Text className='text-xl font-semibold' style={{ color: isDarkTheme ? "white" : "black" }}>Register</Text>
+                    <Text className='text-xl font-semibold dark:text-white text-black'>Register</Text>
                   </>
                 )
               }
