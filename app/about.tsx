@@ -1,14 +1,61 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PrimaryButton from '@/components/PrimaryButton'
 import { useAtom } from 'jotai'
 import { count } from '@/context/counter'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { addANewProduct, getProduct } from '../api/product'
 
 const about = () => {
 
   const [counter, setCounter] = useAtom(count)
+
+  // Queries
+  const {data, isLoading, error, isError, isSuccess,} = useQuery({ 
+    queryKey: ['product', counter],
+    queryFn: () => getProduct(counter), 
+  })
+
+  const { 
+    mutate, 
+    isError:isMuattionError, 
+    error: mutationError, 
+    isPending: isMuattionLoading, 
+    isSuccess: isMutationSuccess,
+    data: mutationData,
+  } = useMutation({
+    mutationFn: addANewProduct,
+  });
+
+  const handleAddProduct = () => {
+    mutate({ title: 'New Product', description: 'Description of new product', price: 100 });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data.id);
+      console.log(data.title);
+    }
+  }, [isSuccess, data]);
+
+
+  //For mutation
+
+  useEffect(() => {
+    if (isMutationSuccess) {
+      console.log(mutationData.id, "New Product added");
+    }
+
+    if (isMuattionError) {
+      console.log(mutationError);
+    }
+  }, [isMuattionError, mutationError, isMutationSuccess]);
+
+  if(isError){
+    console.log(error);
+  }
 
   return (
     <SafeAreaView>
@@ -31,6 +78,15 @@ const about = () => {
             otherStyle='mt-4'
             variant='secondary'
           />
+        </View>
+        <View className='mt-8 w-full px-20'>
+          <PrimaryButton
+            title='Get Product'
+            onButtonPress={handleAddProduct}
+            icon={'box'}
+            isLoading={isMuattionLoading || isLoading}
+          />
+          <Text className='text-xl'>{data && data.title}</Text>
         </View>
       </View>
     </SafeAreaView>

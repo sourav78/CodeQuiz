@@ -78,7 +78,7 @@ const index = () => {
             <TouchableOpacity
               disabled={isLoading}
               className='mt-4 flex flex-row gap-2 items-center justify-center border-2 border-primary w-full h-14 rounded-lg'
-              onPress={() => router.push('/(auth)/register')}
+              onPress={() => router.push('/about')}
             >
               {
                 isLoading ? (
