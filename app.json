@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/codequiz.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sourav78.CodeQuiz"
+      "package": "com.sourav78.CodeQuiz",
+      "permissions": ["ACCESS_NETWORK_STATE", "INTERNET"]
     },
     "web": {
       "bundler": "metro",

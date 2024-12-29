@@ -1,24 +1,54 @@
 import { View, Text, ScrollView, Image} from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { codequizIcon } from '@/constants/images'
 import FormField from '@/components/FormField'
 import { Link, router } from 'expo-router'
 import PrimaryButton from '@/components/PrimaryButton'
+import { useMutation } from '@tanstack/react-query'
+import { loginHandler } from '../../api/user'
+import { AxiosError } from 'axios'
+import { ApiResponse } from '../../constants/types'
 
 const Login = () => {
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
 
+  const {
+    mutate,
+    isError,
+    error,
+    isPending,
+    isSuccess,
+    data: loginData,
+  } = useMutation({
+    mutationFn: loginHandler,
+  })
+
 
   const handleLogin = () => {
-    console.log({
-      email,
-      password
-    });
+    if(!email || !password){
+      alert('Please fill all fields')
+      return
+    }
+
+    mutate({ userName: email, password })
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(loginData);
+      router.push('/+not-found')
+    }
+
+    if (isError) {
+
+      const axiosError = error as AxiosError<ApiResponse>;
+
+      console.log(axiosError || "Something went wrong");
+    }
+  }, [isSuccess, loginData, isError, error])
 
   return (
     <SafeAreaView className='dark:bg-dark bg-white min-h-full'>
@@ -50,7 +80,7 @@ const Login = () => {
               />
 
               <PrimaryButton
-                isLoading={isLoading}
+                isLoading={isPending}
                 title='Login'
                 onButtonPress={handleLogin}
                 icon={"user"}
