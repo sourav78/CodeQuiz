@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://192.168.65.216:9090/api';
+export const BASE_URL = 'https://codequiz-backend.onrender.com';

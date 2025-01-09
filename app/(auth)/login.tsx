@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { loginHandler } from '../../api/user'
 import { AxiosError } from 'axios'
 import { ApiResponse } from '../../constants/types'
+import * as Burnt from "burnt"
 
 const Login = () => {
 
@@ -33,13 +34,19 @@ const Login = () => {
       return
     }
 
-    mutate({ userName: email, password })
+    Burnt.toast({
+      title: 'Logging in',
+      message: 'Please wait',
+      preset: "done"
+    })
+
+    // mutate({ userName: email, password })
   }
 
   useEffect(() => {
     if (isSuccess) {
       console.log(loginData);
-      router.push('/+not-found')
+      router.push('/homedemo')
     }
 
     if (isError) {
