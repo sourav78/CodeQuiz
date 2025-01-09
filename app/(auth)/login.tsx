@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { loginHandler } from '../../api/user'
 import { AxiosError } from 'axios'
 import { ApiResponse } from '../../constants/types'
-import * as Burnt from "burnt"
+import ToastMessage from '@/components/ToastMessage'
 
 const Login = () => {
 
@@ -30,22 +30,17 @@ const Login = () => {
 
   const handleLogin = () => {
     if(!email || !password){
-      alert('Please fill all fields')
+      ToastMessage({type: "error", message: "Please fill all the fields"})
       return
     }
 
-    Burnt.toast({
-      title: 'Logging in',
-      message: 'Please wait',
-      preset: "done"
-    })
-
-    // mutate({ userName: email, password })
+    mutate({ userName: email, password })
   }
 
   useEffect(() => {
     if (isSuccess) {
       console.log(loginData);
+      ToastMessage({type: "success", message: "You are logged in"})
       router.push('/homedemo')
     }
 
@@ -54,6 +49,7 @@ const Login = () => {
       const axiosError = error as AxiosError<ApiResponse>;
 
       console.log(axiosError || "Something went wrong");
+      ToastMessage({type: "error", message: axiosError.response?.data.message || "Something went wrong"})
     }
   }, [isSuccess, loginData, isError, error])
 
