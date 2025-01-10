@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { codequizIcon } from "../constants/images.js"
@@ -42,6 +42,11 @@ const index = () => {
       stiffness: 10,
     }), -1, true);
   }, []);
+
+  
+  // useEffect(() => {
+  //   router.push('/(auth)/otp')
+  // }, [])
 
   return (
     <SafeAreaView>

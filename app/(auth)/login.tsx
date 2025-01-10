@@ -86,7 +86,7 @@ const Login = () => {
                 isLoading={isPending}
                 title='Login'
                 onButtonPress={handleLogin}
-                icon={"user"}
+                icon={"User"}
                 otherStyle='mt-4'
               />
               <Text className='text-center dark:text-white text-black-100 mt-4 text-sm'>Don't have an account?

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, KeyboardType } from 'react-native'
 import React, { useState } from 'react'
 import { Eye, EyeClosed } from "lucide-react-native"
 
@@ -9,6 +9,7 @@ interface FormFieldProps {
   value: string
   handleChangeText: (text: string) => void
   otherStyle?: string,
+  type?: KeyboardType
 }
 
 const FormField = ({
@@ -17,6 +18,7 @@ const FormField = ({
   value,
   handleChangeText,
   otherStyle,
+  type
 }: FormFieldProps) => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -37,6 +39,7 @@ const FormField = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           secureTextEntry={title === "Password" && !showPassword}
+          keyboardType={type || "default"}
         />
         {title === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, useColorScheme } from 'react-native'
 import React from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
+import { icons } from 'lucide-react-native'
 
 type ButtonVariant = 'primary' | 'secondary'
 
@@ -9,7 +10,7 @@ interface PrimaryButtonProps {
   isLoading?: boolean,
   title: string,
   onButtonPress: () => void,
-  icon?: any,
+  icon?: keyof typeof icons,
   otherStyle?: string
   variant?: ButtonVariant
 }
@@ -17,6 +18,8 @@ interface PrimaryButtonProps {
 const PrimaryButton = (
   { isLoading = false, title, onButtonPress, icon, otherStyle, variant = "primary" }: PrimaryButtonProps
 ) => {
+
+  const LucideIcon = icons[icon || "Camera"];
 
   
     const colorScheme = useColorScheme();
@@ -33,7 +36,7 @@ const PrimaryButton = (
         ) : (
           <>
             {
-              icon && <Feather name={icon} size={20} color={!isDarkTheme && variant === "secondary" ? "black" : "white"} />
+              icon && <LucideIcon size={20} color={!isDarkTheme && variant === "secondary" ? "black" : "white"} />
             }
             <Text className={`text-xl font-semibold ${!isDarkTheme && variant === "secondary" ? "dark:text-white text-black" : "text-white"}`}>{title}</Text>
           </>

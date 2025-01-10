@@ -67,13 +67,13 @@ const about = () => {
           <Text>{counter}</Text>
           <PrimaryButton
             title='Counter Up'
-            icon={"clock"}
+            icon={"Clock"}
             onButtonPress={() => setCounter(counter + 1)}
             otherStyle='mt-4'
           />
           <PrimaryButton
             title='Counter Down'
-            icon={"clock"}
+            icon={"Clock"}
             onButtonPress={() => setCounter(counter - 1)}
             otherStyle='mt-4'
             variant='secondary'
@@ -83,7 +83,7 @@ const about = () => {
           <PrimaryButton
             title='Get Product'
             onButtonPress={handleAddProduct}
-            icon={'box'}
+            icon={'Box'}
             isLoading={isMuattionLoading || isLoading}
           />
           <Text className='text-xl'>{data && data.title}</Text>

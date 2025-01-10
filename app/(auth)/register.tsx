@@ -26,7 +26,7 @@ const Register = () => {
   return (
     <SafeAreaView className='dark:bg-black bg-white min-h-full'>
       <ScrollView>
-        <View className='w-full min-h-full gap-16 justify-between items-center'>
+        <View className='w-full h-[1000px] bg-black-100 border min-h-full gap-16 justify-between items-center'>
           <View className='w-full items-center pt-20'>
             <Image
               source={codequizIcon}
@@ -63,7 +63,7 @@ const Register = () => {
                 isLoading={isLoading}
                 title='Register'
                 onButtonPress={handleLogin}
-                icon={"user-plus"}
+                icon={"UserPlus"}
                 otherStyle='mt-4'
               />
               <Text className='text-center dark:text-white text-black-100 mt-4 text-sm'>Already have an account?
