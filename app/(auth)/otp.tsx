@@ -54,7 +54,7 @@ const Otp = () => {
 
   return (
     <SafeAreaView className='min-h-full'>
-      <ScrollView className='h-[1000px] bg-purple-500'>
+      <ScrollView className=''>
         <View className='w-full flex min-h-full dark:bg-dark bg-white'>
           <BackButton destination="/(auth)/register" />
           <View className='h-full flex-1 justify-between'>

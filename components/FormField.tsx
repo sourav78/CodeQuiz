@@ -9,7 +9,9 @@ interface FormFieldProps {
   value: string
   handleChangeText: (text: string) => void
   otherStyle?: string,
-  type?: KeyboardType
+  type?: KeyboardType,
+  multiLine?: boolean
+  numberOfLines?: number
 }
 
 const FormField = ({
@@ -18,7 +20,9 @@ const FormField = ({
   value,
   handleChangeText,
   otherStyle,
-  type
+  type,
+  multiLine,
+  numberOfLines
 }: FormFieldProps) => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -29,7 +33,7 @@ const FormField = ({
   return (
     <View className={`space-y-2 ${otherStyle}`}>
       <Text className="text-base dark:text-gray-100 text-black-200 font-pmedium">{title}</Text>
-      <View className={`border-2 ${isFocused ? 'border-secondary' : 'border-gray-400'} w-full h-16 px-4 rounded-lg items-center flex-row`}>
+      <View className={`border-2 ${isFocused ? 'border-secondary' : 'border-gray-400'} w-full ${multiLine ? "min-h-16" : "h-16"} px-4 rounded-lg items-center flex-row`}> 
         <TextInput
           className="flex-1 dark:text-white text-black-100 font-psemibold"
           value={value}
@@ -40,6 +44,8 @@ const FormField = ({
           onBlur={handleBlur}
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={type || "default"}
+          multiline={multiLine}
+          numberOfLines={numberOfLines}
         />
         {title === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>

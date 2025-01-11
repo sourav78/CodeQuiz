@@ -110,7 +110,7 @@ export default function RootLayout() {
 
         // If the token is null, redirect to the login page
         if (token === null) {
-          router.push('/(auth)/otp');
+          router.push('/(auth)/onboarding');
         } else {
           router.push('/about');
         }
