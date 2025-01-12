@@ -49,6 +49,9 @@ const Otp = () => {
       return;
     }
 
+
+    //Set the islogin to true in the storage
+
     console.log(otp);
   }
 

@@ -14,6 +14,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message"
+import {MD3LightTheme as PaperDefalutTheme, PaperProvider} from "react-native-paper"
 
 
 
@@ -45,7 +46,7 @@ const toastConfig = {
     Overwrite 'success' type,
     by modifying the existing `BaseToast` component
   */
-  success: (props:any) => (
+  success: (props: any) => (
     <BaseToast
       {...props}
       style={{ borderLeftColor: 'pink' }}
@@ -60,7 +61,7 @@ const toastConfig = {
     Overwrite 'error' type,
     by modifying the existing `ErrorToast` component
   */
-  error: (props:any) => (
+  error: (props: any) => (
     <ErrorToast
       {...props}
       text1Style={{
@@ -78,7 +79,7 @@ const toastConfig = {
     I can consume any custom `props` I want.
     They will be passed when calling the `show` method (see below)
   */
-  tomatoToast: ({ text1, props }:{text1: string, props: any}) => (
+  tomatoToast: ({ text1, props }: { text1: string, props: any }) => (
     <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
       <Text>{text1}</Text>
       <Text>{props.uuid}</Text>
@@ -86,9 +87,10 @@ const toastConfig = {
   )
 };
 
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-
+  
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("@/assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("@/assets/fonts/Poppins-Bold.ttf"),
@@ -100,44 +102,57 @@ export default function RootLayout() {
     "Poppins-SemiBold": require("@/assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("@/assets/fonts/Poppins-Thin.ttf"),
   })
-
+  
   useEffect(() => {
     const validateLogin = async () => {
       if (fontsLoaded) {
-
+        
         // Get the token from async storage
         const token = await AsyncStorage.getItem('token');;
-
+        
         // If the token is null, redirect to the login page
         if (token === null) {
-          router.push('/(auth)/onboarding');
+          router.push('/');
         } else {
           router.push('/about');
         }
-
+        
         SplashScreen.hideAsync();
-
+        
       }
     }
-
+    
     validateLogin();
   }, [fontsLoaded]);
-
+  
   if (!fontsLoaded) {
     return null;
   }
 
+  const theme = {
+    ...PaperDefalutTheme,
+    colors: {
+      ...PaperDefalutTheme.colors,
+      primary: '#0083FF',
+      secondary: '#4da8ff',
+      surface: '#80c1ff',
+      background: `${colorScheme === 'dark' ? "#080713" : "white"}`, 
+    },
+  };
+  
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="about" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <Toast/>
-        <StatusBar style="auto" />
+        <PaperProvider theme={theme}>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="about" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <Toast />
+          <StatusBar style="auto" />
+        </PaperProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
