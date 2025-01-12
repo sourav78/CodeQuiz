@@ -19,7 +19,7 @@ export interface RegisterDetailsType {
 
 export interface VerificationDetailsType {
   email: string;
-  vefificationCode: string;
+  verificationCode: string;
 }
 
 export interface UserInfoDetailsType {

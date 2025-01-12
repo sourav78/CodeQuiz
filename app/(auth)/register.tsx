@@ -11,7 +11,7 @@ import ToastMessage from '@/components/ToastMessage'
 import { AxiosError } from 'axios'
 import { ApiResponse } from '@/constants/types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { validateEmail } from '@/lib/ValidateEmail'
+import { validateEmail } from '@/lib/Validator'
 
 const Register = () => {
   
@@ -20,7 +20,7 @@ const Register = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
 
-  //Mutation to register user
+  //Mutation for register user
   const {
     mutate,
     isPending,
@@ -32,6 +32,7 @@ const Register = () => {
     onSuccess: (data) => {
       ToastMessage({type: "success", message: "You are registered successfully"})
       AsyncStorage.setItem('token', data.data)
+      AsyncStorage.setItem('email', email)
       router.push('/(auth)/otp')
     },
 

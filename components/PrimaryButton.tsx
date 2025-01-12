@@ -11,12 +11,13 @@ interface PrimaryButtonProps {
   title: string,
   onButtonPress: () => void,
   icon?: keyof typeof icons,
-  otherStyle?: string
-  variant?: ButtonVariant
+  otherStyle?: string,
+  variant?: ButtonVariant,
+  disabled?: boolean
 }
 
 const PrimaryButton = (
-  { isLoading = false, title, onButtonPress, icon, otherStyle, variant = "primary" }: PrimaryButtonProps
+  { isLoading = false, title, onButtonPress, icon, otherStyle, variant = "primary", disabled = false }: PrimaryButtonProps
 ) => {
 
   const LucideIcon = icons[icon || "Camera"];
@@ -29,6 +30,7 @@ const PrimaryButton = (
     <TouchableOpacity
       className={`flex flex-row gap-2 items-center justify-center ${variant === "primary" ? "bg-primary" : "border-2 border-primary"} w-full h-14 rounded-lg ${otherStyle}`}
       onPress={ onButtonPress }
+      disabled={disabled}
     >
       {
         isLoading ? (

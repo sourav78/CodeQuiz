@@ -1,13 +1,18 @@
 import { View, Text, ScrollView, useColorScheme } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from '@/components/BackButton'
 import FormField from '@/components/FormField'
 import PrimaryButton from '@/components/PrimaryButton'
 import ToastMessage from '@/components/ToastMessage'
-import { TextInput } from 'react-native-paper'
 import { SelectList } from "react-native-dropdown-select-list"
 import { ALL_COUNTRY } from '@/constants/GlobalConstant'
+import { AxiosError } from 'axios'
+import { ApiResponse } from '@/constants/types'
+import { useMutation } from '@tanstack/react-query'
+import { onboardingHandler } from '@/api/user'
+import { router } from 'expo-router'
+import { validateDate } from '@/lib/Validator'
 
 
 const OnBoarding = () => {
@@ -21,6 +26,27 @@ const OnBoarding = () => {
 
   const [selectedCountry, setSelectedCountry] = React.useState("");
 
+  //Mutation for onnboarding user
+  const {
+    mutate,
+    isPending
+  } = useMutation({
+    mutationFn: onboardingHandler,
+
+    //Handle success of mutation
+    onSuccess: (data) => {
+      ToastMessage({ type: "success", message: "User Resitered successfully" })
+      router.push('/homedemo')
+    },
+
+    //Handle error of mutation
+    onError: (error) => {
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.log(axiosError.response?.data.message || "Something went wrong");
+      ToastMessage({ type: "error", message: axiosError.response?.data.message || "Something went wrong" })
+    }
+  })
+
   const submitUserInfoHandler = async () => {
     console.log({
       firstName,
@@ -29,6 +55,25 @@ const OnBoarding = () => {
       dateOfBirth,
       country: selectedCountry
     });
+
+    if(!firstName || !lastName || !selectedCountry){
+      ToastMessage({type: "error", message: "Please fill all the required fields"})
+      return;
+    }
+
+    //Validate the date of birth
+    if(!validateDate(dateOfBirth)){
+      ToastMessage({type: "error", message: "Please provide a valid date of birth"})
+      return;
+    }
+
+    mutate({
+      firstName,
+      lastName,
+      bio,
+      dob: dateOfBirth,
+      country: selectedCountry
+    })
   }
 
   return (
@@ -97,6 +142,7 @@ const OnBoarding = () => {
                 title='Submit'
                 onButtonPress={submitUserInfoHandler}
                 icon={"Share"}
+                isLoading={isPending}
               />
             </View>
           </View>
