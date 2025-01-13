@@ -33,7 +33,7 @@ const Register = () => {
       ToastMessage({type: "success", message: "You are registered successfully"})
       AsyncStorage.setItem('token', data.data)
       AsyncStorage.setItem('email', email)
-      router.push('/(auth)/otp')
+      router.push('/(auth)/otp?source=register')
     },
 
     //Handle error of mutation

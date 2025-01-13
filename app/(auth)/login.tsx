@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image} from 'react-native'
+import { View, Text, ScrollView, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { codequizIcon } from '@/constants/images'
@@ -29,8 +29,8 @@ const Login = () => {
 
 
   const handleLogin = () => {
-    if(!email || !password){
-      ToastMessage({type: "error", message: "Please fill all the fields"})
+    if (!email || !password) {
+      ToastMessage({ type: "error", message: "Please fill all the fields" })
       return
     }
 
@@ -40,7 +40,7 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(loginData);
-      ToastMessage({type: "success", message: "You are logged in"})
+      ToastMessage({ type: "success", message: "You are logged in" })
       router.push('/homedemo')
     }
 
@@ -49,7 +49,7 @@ const Login = () => {
       const axiosError = error as AxiosError<ApiResponse>;
 
       console.log(axiosError || "Something went wrong");
-      ToastMessage({type: "error", message: axiosError.response?.data.message || "Something went wrong"})
+      ToastMessage({ type: "error", message: axiosError.response?.data.message || "Something went wrong" })
     }
   }, [isSuccess, loginData, isError, error])
 
@@ -81,6 +81,12 @@ const Login = () => {
                 value={password}
                 handleChangeText={(e: string) => { setPassword(e) }}
               />
+
+              <View className='mt-4 w-full'>
+                <Link href={'/(auth)/forgot-password'}>
+                  <Text className='text-primary font-pmedium text-sm text-right'>Forgot Password?</Text>
+                </Link>
+              </View>
 
               <PrimaryButton
                 isLoading={isPending}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../constants/GlobalConstant';
-import { LoginDetailsType, RegisterDetailsType, UserInfoDetailsType, VerificationDetailsType } from '../constants/types';
+import { ForgotPaaswordDetailsType, LoginDetailsType, RegisterDetailsType, UserInfoDetailsType, VerificationDetailsType } from '../constants/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const requestHeader = {
@@ -48,10 +48,26 @@ export const resendOtpHandler = async (email:string) => {
   return response.data;
 }
 
+//Resend OTP
+export const forgotPasswordOtpHandler = async (email:string) => {
+  const response = await axios.get(`${BASE_URL}/api/auth/password-verify?email=${email}`, {
+    headers: requestHeader
+  });
+  return response.data;
+}
+
 //Verify OTP
 export const onboardingHandler = async (userInfo:UserInfoDetailsType) => {
   const response = await axios.post(`${BASE_URL}/api/user/info`, userInfo, {
     headers: await getRequestHeaderWithToken()
+  });
+  return response.data;
+}
+
+//Verify OTP
+export const forgotPasswordHandler = async (passwordDetails:ForgotPaaswordDetailsType) => {
+  const response = await axios.post(`${BASE_URL}/api/auth/forgot-password`, passwordDetails, {
+    headers: requestHeader
   });
   return response.data;
 }

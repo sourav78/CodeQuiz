@@ -12,8 +12,13 @@ import { AxiosError } from 'axios'
 import { ApiResponse } from '@/constants/types'
 import { router } from 'expo-router'
 import { Loader2 } from 'lucide-react-native'
+import { useRoute } from '@react-navigation/native'
 
 const Otp = () => {
+
+  //Get the source from the url
+  const route = useRoute();
+  const routeParams = route.params as { source?: string };  // Accessing the 'source' parameter
 
   const [otp, setOtp] = useState<string>('')
 
@@ -33,6 +38,8 @@ const Otp = () => {
         return currentTimer - 1;
       });
     }, 1000);
+    console.log(routeParams);
+    
   }, [toggleResend]);
 
 
@@ -49,8 +56,13 @@ const Otp = () => {
       ToastMessage({ type: "success", message: "User verified successfully" })
 
       //Set the islogin to true in the storage
-      AsyncStorage.setItem('isLogin', "true")
-      router.push('/(auth)/onboarding')
+      
+      if(routeParams?.source === 'register'){
+        AsyncStorage.setItem('isLogin', "true")
+        router.push('/(auth)/onboarding')
+      }else{
+        router.push('/(auth)/create-new-password')
+      }
     },
 
     //Handle error of mutation
@@ -144,7 +156,7 @@ const Otp = () => {
     <SafeAreaView className='min-h-full'>
       <ScrollView className=''>
         <View className='w-full flex min-h-full dark:bg-dark bg-white'>
-          <BackButton destination="/(auth)/register" />
+          <BackButton destination={routeParams?.source === 'register' ? "/(auth)/register" : "/(auth)/forgot-password"} />
           <View className='h-full flex-1 justify-between'>
             <View className='mt-4 px-4 py-2 w-full'>
               <Text className='text-3xl font-psemibold text-black-100 dark:text-primary'>You’ve got mail 📧</Text>

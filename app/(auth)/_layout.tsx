@@ -8,6 +8,8 @@ const AuthLayout: React.FC = () => {
       <Stack.Screen name="register" options={{ headerShown: false }} />
       <Stack.Screen name="otp" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+      <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+      <Stack.Screen name="create-new-password" options={{ headerShown: false }} />
     </Stack>
   );
 };

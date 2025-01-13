@@ -30,3 +30,8 @@ export interface UserInfoDetailsType {
   country: string;
 }
 
+export interface ForgotPaaswordDetailsType {
+  email: string;
+  verificationCode: string;
+  password: string;
+}
