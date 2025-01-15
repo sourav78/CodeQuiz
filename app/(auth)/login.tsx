@@ -10,6 +10,7 @@ import { loginHandler } from '../../api/user'
 import { AxiosError } from 'axios'
 import { ApiResponse } from '../../constants/types'
 import ToastMessage from '@/components/ToastMessage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Login = () => {
 
@@ -25,6 +26,25 @@ const Login = () => {
     data: loginData,
   } = useMutation({
     mutationFn: loginHandler,
+
+    onSuccess: (loginData) => {
+      console.log(loginData);
+      ToastMessage({ type: "success", message: "You are logged in" })
+      AsyncStorage.setItem('token', loginData.data)
+      AsyncStorage.setItem('isLogin', "true")
+      router.dismissAll()
+      if (router.canGoBack()) {
+        router.back()
+      }
+      router.replace('/homedemo')
+    },
+
+    onError: (error) => {
+      const axiosError = error as AxiosError<ApiResponse>;
+
+      console.log(axiosError || "Something went wrong");
+      ToastMessage({ type: "error", message: axiosError.response?.data.message || "Something went wrong" })
+    },
   })
 
 
@@ -69,8 +89,8 @@ const Login = () => {
             <Text className='text-base dark:text-gray-300 text-gray-500 font-pmedium'>Please Login to your account</Text>
             <View className='w-full px-2 mt-6 space-y-4'>
               <FormField
-                title='Email'
-                placeHolder='Enter your email'
+                title='Username'
+                placeHolder='Enter your Username'
                 value={email}
                 handleChangeText={(e: string) => { setEmail(e) }}
                 otherStyle='mb-4'

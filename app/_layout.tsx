@@ -15,6 +15,10 @@ import {
 } from '@tanstack/react-query'
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message"
 import {MD3LightTheme as PaperDefalutTheme, PaperProvider} from "react-native-paper"
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+import { Text, View } from 'react-native';
+import { authTokenContext, isLoginContext } from '@/context/credentials';
+import { useAtom } from 'jotai';
 
 
 
@@ -22,8 +26,6 @@ import {MD3LightTheme as PaperDefalutTheme, PaperProvider} from "react-native-pa
 SplashScreen.preventAutoHideAsync();
 
 
-import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
-import { Text, View } from 'react-native';
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -90,6 +92,9 @@ const toastConfig = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  const [authToken, setAuthToken] = useAtom(authTokenContext);
+  const [isLogin, setIsLogin] = useAtom(isLoginContext);
   
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("@/assets/fonts/Poppins-Black.ttf"),
@@ -108,14 +113,20 @@ export default function RootLayout() {
       if (fontsLoaded) {
         
         // Get the token from async storage
-        const token = await AsyncStorage.getItem('token');;
+        const token = await AsyncStorage.getItem('token');
+
+        //Get the isLogin from async storage
+        const isLogin = await AsyncStorage.getItem('isLogin');
+
+        setAuthToken(token);
+        setIsLogin(isLogin === "true" ? true : false);
         
         // If the token is null, redirect to the login page
-        if (token === null) {
-          router.push('/');
-        } else {
-          router.push('/about');
-        }
+        // if (token === null && isLogin !== "true") {
+        //   router.replace('/');
+        // } else {
+        //   router.replace('/homedemo');
+        // }
         
         SplashScreen.hideAsync();
         

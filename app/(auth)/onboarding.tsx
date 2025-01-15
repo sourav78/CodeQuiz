@@ -36,7 +36,11 @@ const OnBoarding = () => {
     //Handle success of mutation
     onSuccess: (data) => {
       ToastMessage({ type: "success", message: "User Resitered successfully" })
-      router.push('/homedemo')
+      router.dismissAll()
+      if (router.canGoBack()) {
+        router.back()
+      }
+      router.replace('/homedemo')
     },
 
     //Handle error of mutation
@@ -56,14 +60,14 @@ const OnBoarding = () => {
       country: selectedCountry
     });
 
-    if(!firstName || !lastName || !selectedCountry){
-      ToastMessage({type: "error", message: "Please fill all the required fields"})
+    if (!firstName || !lastName || !selectedCountry) {
+      ToastMessage({ type: "error", message: "Please fill all the required fields" })
       return;
     }
 
     //Validate the date of birth
-    if(!validateDate(dateOfBirth)){
-      ToastMessage({type: "error", message: "Please provide a valid date of birth"})
+    if (!validateDate(dateOfBirth)) {
+      ToastMessage({ type: "error", message: "Please provide a valid date of birth" })
       return;
     }
 
@@ -128,10 +132,10 @@ const OnBoarding = () => {
                     data={ALL_COUNTRY.map((country: string) => ({ key: country, value: country }))}
                     save="value"
                     fontFamily='pmedium'
-                    boxStyles={{ borderRadius: 8, height: 52, borderWidth:2, borderColor: '#9ca3af' }}
-                    inputStyles={{color: `${colorScheme === 'dark' ? 'white' : 'black'}`}}
-                    dropdownTextStyles={{color: `${colorScheme === 'dark' ? 'white' : 'black'}`}}
-                    
+                    boxStyles={{ borderRadius: 8, height: 52, borderWidth: 2, borderColor: '#9ca3af' }}
+                    inputStyles={{ color: `${colorScheme === 'dark' ? 'white' : 'black'}` }}
+                    dropdownTextStyles={{ color: `${colorScheme === 'dark' ? 'white' : 'black'}` }}
+
                   />
                 </View>
 

@@ -6,6 +6,8 @@ import { codequizIcon } from "../constants/images.js"
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSpring } from 'react-native-reanimated'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+import { useAtomValue } from 'jotai'
+import { authTokenContext, isLoginContext } from '@/context/credentials'
 
 
 
@@ -15,13 +17,22 @@ const index = () => {
   const colorScheme = useColorScheme();
   const isDarkTheme = colorScheme === 'dark';
 
+  const isLogedin = useAtomValue(isLoginContext);
+  const authToken = useAtomValue(authTokenContext);
+
   // const [loggedIn, setLoggedIn] = useState<Boolean>(false)
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoggedIn(true)
-  //   }, 3000)
-  // }, [])
+  useEffect(() => {
+    if(authToken && isLogedin){
+      if(router.canDismiss()){
+        router.dismissAll()
+      }
+      if(router.canGoBack()){
+        router.back()
+      }
+      router.replace('/homedemo')
+    }
+  }, [authToken, isLogedin])
 
   // if(loggedIn){
   //   return <Redirect href={'/about'} />
@@ -66,7 +77,7 @@ const index = () => {
             <TouchableOpacity
               disabled={isLoading}
               className='flex flex-row gap-2 items-center justify-center bg-primary w-full h-14 rounded-lg'
-              onPress={() => router.push('/(auth)/login')}
+              onPress={() => router.replace('/(auth)/login')}
             >
               {
                 isLoading ? (
@@ -83,7 +94,7 @@ const index = () => {
             <TouchableOpacity
               disabled={isLoading}
               className='mt-4 flex flex-row gap-2 items-center justify-center border-2 border-primary w-full h-14 rounded-lg'
-              onPress={() => router.push('/(auth)/register')}
+              onPress={() => router.replace('/(auth)/register')}
             >
               {
                 isLoading ? (
